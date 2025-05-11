@@ -26,7 +26,7 @@ public class Main {
             if(!gameEngine.isComplete(board).isOver()) {
                 Move aiMove = gameEngine.suggestMove(board);
                 gameEngine.move(board, ai, aiMove);
-                System.out.println(board.toString());
+                System.out.println(board);
             }
         }
         System.out.println("GameResult: " + gameEngine.isComplete(board).getWinner());
