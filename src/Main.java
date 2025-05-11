@@ -19,13 +19,13 @@ public class Main {
             int row = myObj.nextInt();
             int col = myObj.nextInt();
 
-            gameEngine.move(board, human, new Move(new Cell(row, col)));
+            gameEngine.move(board, new Move(new Cell(row, col), human));
             System.out.println(board.toString());
 
             // For AI -> suggest input
             if(!gameEngine.isComplete(board).isOver()) {
-                Move aiMove = gameEngine.suggestMove(board);
-                gameEngine.move(board, ai, aiMove);
+                Move aiMove = gameEngine.suggestMove(ai, board);
+                gameEngine.move(board, aiMove);
                 System.out.println(board);
             }
         }

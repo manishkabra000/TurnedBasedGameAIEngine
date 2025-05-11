@@ -3,6 +3,8 @@ package api;
 import game.*;
 import boards.TikTakToeBoard;
 
+// Game Engine's responsibility should be only to start & make a move
+
 public class GameEngine {
     public Board start(String type) {
         if(type.equals("TikTakToe")) {
@@ -11,9 +13,9 @@ public class GameEngine {
             throw new IllegalArgumentException();
         }
     }
-    public void move(Board board, Player player, Move move) {
+    public void move(Board board, Move move) {
         if(board instanceof TikTakToeBoard board1){
-            board1.setCell(player.getSymbol(), move.getCell());
+            board1.move(move);
         } else {
             throw new IllegalArgumentException();
         }
@@ -104,12 +106,12 @@ public class GameEngine {
             return new GameResult(false, "-");
         }
     }
-    public Move suggestMove(Board board) {
+    public Move suggestMove(Player ai, Board board) {
         if(board instanceof TikTakToeBoard board1) {
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     if(board1.getCell(i,j) == null) {
-                        return new Move(new Cell(i,j));
+                        return new Move(new Cell(i,j), ai);
                     }
                 }
             }

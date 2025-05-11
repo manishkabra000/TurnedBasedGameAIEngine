@@ -2,6 +2,7 @@ package boards;
 
 import game.Board;
 import game.Cell;
+import game.Move;
 
 public class TikTakToeBoard extends Board {
     String[][] cells = new String[3][3];
@@ -13,7 +14,7 @@ public class TikTakToeBoard extends Board {
     public void setCell(String symbol, Cell cell){
         cells[cell.getRow()][cell.getCol()] = symbol;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
@@ -28,5 +29,8 @@ public class TikTakToeBoard extends Board {
             result.append("\n");
         }
         return result.toString();
+    }
+    public void move(Move move){
+        setCell(move.getPlayer().getSymbol(), move.getCell());
     }
 }
