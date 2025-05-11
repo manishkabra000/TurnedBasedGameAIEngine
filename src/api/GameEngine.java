@@ -58,9 +58,8 @@ public class GameEngine {
                 return new GameResult(true, firstChar);
             }
             // 3. Diagonal
-            boolean diagComplete = true;
             firstChar = board1.getCell(0,0);
-            diagComplete = firstChar != null;
+            boolean diagComplete = firstChar != null;
             if(firstChar != null) {
                 for (int i = 0; i < 3; i++) {
                     if (!firstChar.equals(board1.getCell(i, i))) {
@@ -73,9 +72,8 @@ public class GameEngine {
                 return new GameResult(true, firstChar);
             }
             // 4. Reverse Diagonal
-            boolean revDiagComplete = true;
             firstChar = board1.getCell(2,0);
-            revDiagComplete = firstChar != null;
+            boolean revDiagComplete = firstChar != null;
             if(firstChar != null) {
                 for(int i = 0; i < 3; i++) {
                     if (!firstChar.equals(board1.getCell(2 - i,i))) {
