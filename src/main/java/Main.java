@@ -1,6 +1,4 @@
-import api.AIPlayer;
-import api.GameEngine;
-import api.RuleEngine;
+import api.*;
 import game.*;
 import java.util.Scanner;
 

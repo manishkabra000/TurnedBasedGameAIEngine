@@ -8,8 +8,8 @@ public class RuleEngine {
     public GameResult getState(Board board) {
         if(board instanceof TikTakToeBoard board1) {
             // 1. Row Wise
-            String firstChar = "-";
-            boolean rowComplete = true;
+            String firstChar;
+            boolean rowComplete;
             for(int i = 0; i < 3; i++) {
                 firstChar = board1.getCell(i,0);
                 rowComplete = firstChar != null;
@@ -21,12 +21,12 @@ public class RuleEngine {
                         }
                     }
                 }
-            }
-            if(rowComplete) {
-                return new GameResult(true, firstChar);
+                if(rowComplete) {
+                    return new GameResult(true, firstChar);
+                }
             }
             // 2. Column Wise
-            boolean colComplete = true;
+            boolean colComplete;
             for(int i = 0; i < 3; i++) {
                 firstChar = board1.getCell(0,i);
                 colComplete = firstChar != null;
@@ -38,9 +38,9 @@ public class RuleEngine {
                         }
                     }
                 }
-            }
-            if(colComplete) {
-                return new GameResult(true, firstChar);
+                if(colComplete) {
+                    return new GameResult(true, firstChar);
+                }
             }
             // 3. Diagonal
             firstChar = board1.getCell(0,0);
