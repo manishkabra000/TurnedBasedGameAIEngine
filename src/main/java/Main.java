@@ -14,7 +14,7 @@ public class Main {
 
         // Human vs AI
         Player human = new Player("X");
-        Player ai = new Player("0");
+        Player ai = new Player("O");
 
         while (!ruleEngine.getState(board).isOver()) {
             System.out.println("Make you move!");
