@@ -5,22 +5,18 @@ import game.Board;
 import game.GameResult;
 
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public class RuleEngine {
     public GameResult getState(Board board) {
         if(board instanceof TikTakToeBoard board1) {
-            Function<Integer, String> getRow = (i) -> board1.getCell(i,0);
-            Function<Integer, String> getCol = (i) -> board1.getCell(0,i);
-
             BiFunction<Integer,Integer, String> getNextRow = board1::getCell;
             BiFunction<Integer,Integer, String> getNextCol = (i, j) -> board1.getCell(j, i);
             // 1. Row Wise
-            GameResult rowResult = isVictory(getRow, getNextRow);
+            GameResult rowResult = isVictory(getNextRow);
             if (rowResult.isOver()) return rowResult;
 
             // 2. Column Wise
-            GameResult colResult = isVictory(getCol, getNextCol);
+            GameResult colResult = isVictory(getNextCol);
             if (colResult.isOver()) return colResult;
 
             // 3. Diagonal
@@ -72,20 +68,17 @@ public class RuleEngine {
         }
     }
 
-    private static GameResult isVictory(Function<Integer, String> getVal, BiFunction<Integer,Integer, String> getNextVal) {
+    private static GameResult isVictory(BiFunction<Integer,Integer, String> next) {
         for(int i = 0; i < 3; i++) {
-            String whoWon = getVal.apply(i);
-            boolean possibleStreak = whoWon != null;
-            if(whoWon != null) {
-                for (int j = 1; j < 3; j++) {
-                    if (!whoWon.equals(getNextVal.apply(i, j))) {
-                        possibleStreak = false;
-                        break;
-                    }
+            boolean possibleStreak = true;
+            for (int j = 0; j < 3; j++) {
+                if (next.apply(i, j) == null || !next.apply(i, 0).equals(next.apply(i, j))) {
+                    possibleStreak = false;
+                    break;
                 }
             }
             if(possibleStreak) {
-                return new GameResult(true, whoWon);
+                return new GameResult(true, next.apply(i,0));
             }
         }
         return new GameResult(false, "-");
