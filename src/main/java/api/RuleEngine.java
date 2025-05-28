@@ -17,19 +17,19 @@ public class RuleEngine {
             Function<Integer, String> getNextRevDiag = (i) -> board1.getCell(2 - i, i);
 
             // 1. Row Wise
-            GameResult rowResult = isVictory(getNextRow);
+            GameResult rowResult = outerTraversal(getNextRow);
             if (rowResult.isOver()) return rowResult;
 
             // 2. Column Wise
-            GameResult colResult = isVictory(getNextCol);
+            GameResult colResult = outerTraversal(getNextCol);
             if (colResult.isOver()) return colResult;
 
             // 3. Diagonal
-            GameResult diagResult = isDiagStreak(getNextDiag);
+            GameResult diagResult = innerTraversal(getNextDiag);
             if(diagResult.isOver()) return diagResult;
 
             // 4. Reverse Diagonal
-            GameResult revDiagResult = isDiagStreak(getNextRevDiag);
+            GameResult revDiagResult = innerTraversal(getNextRevDiag);
             if(revDiagResult.isOver()) return revDiagResult;
 
             int countOfFilledCells = 0;
@@ -51,33 +51,29 @@ public class RuleEngine {
         }
     }
 
-    private static GameResult isDiagStreak(Function<Integer, String> next) {
-        boolean isStreak = true;
-        for (int i = 0; i < 3; i++) {
-            if (next.apply(i) == null || !next.apply(0).equals(next.apply(i))) {
-                isStreak = false;
+    private static GameResult innerTraversal(Function<Integer, String> next) {
+        GameResult gameResult = new GameResult(false, "-");
+        boolean possibleStreak = true;
+        for (int j = 0; j < 3; j++) {
+            if (next.apply(j) == null || !next.apply(0).equals(next.apply(j))) {
+                possibleStreak = false;
                 break;
             }
-            if(isStreak) {
-                return new GameResult(true, next.apply(0));
-            }
         }
-        return new GameResult(false, "-");
+        if(possibleStreak) {
+            gameResult = new GameResult(true, next.apply(0));
+        }
+        return gameResult;
     }
 
-    private static GameResult isVictory(BiFunction<Integer,Integer, String> next) {
+    private static GameResult outerTraversal(BiFunction<Integer,Integer, String> next) {
+        GameResult gameResult = new GameResult(false, "-");
         for(int i = 0; i < 3; i++) {
-            boolean possibleStreak = true;
-            for (int j = 0; j < 3; j++) {
-                if (next.apply(i, j) == null || !next.apply(i, 0).equals(next.apply(i, j))) {
-                    possibleStreak = false;
-                    break;
-                }
-            }
-            if(possibleStreak) {
-                return new GameResult(true, next.apply(i,0));
-            }
+            final int ii = i;
+            gameResult = innerTraversal(j -> next.apply(ii, j));
+            if(gameResult.isOver())
+                break;
         }
-        return new GameResult(false, "-");
+        return gameResult;
     }
 }
