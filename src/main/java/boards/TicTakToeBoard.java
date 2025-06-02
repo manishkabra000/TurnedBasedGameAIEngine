@@ -4,7 +4,7 @@ import game.Board;
 import game.Cell;
 import game.Move;
 
-public class TikTakToeBoard extends Board {
+public class TicTakToeBoard extends Board {
     String[][] cells = new String[3][3];
 
     public String getCell(int row, int col) {

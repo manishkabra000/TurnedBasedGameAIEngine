@@ -10,7 +10,7 @@ public class Main {
         AIPlayer aiPlayer = new AIPlayer();
         RuleEngine ruleEngine = new RuleEngine();
 
-        Board board = gameEngine.start("TikTakToe");
+        Board board = gameEngine.start("TicTakToe");
 
         // Human vs AI
         Player human = new Player("X");
